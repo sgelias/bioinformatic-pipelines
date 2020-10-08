@@ -1,0 +1,11 @@
+version: "3"
+
+volumes:
+  analysis: {}
+
+services:
+  machine:
+    container_name: "drug_resistance"
+    image: waldeyr/bioinfo:drug_resistance
+    volumes:
+      - analysis:/home/

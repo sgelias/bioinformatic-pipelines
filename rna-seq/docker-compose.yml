@@ -1,0 +1,11 @@
+version: "3"
+
+volumes:
+  analysis: {}
+
+services:
+  machine:
+    container_name: "rna_seq"
+    image: waldeyr/rnaseq:1.0
+    volumes:
+      - analysis:/home/

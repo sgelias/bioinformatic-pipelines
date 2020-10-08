@@ -1,0 +1,293 @@
+<h1 id="environment-preparation">Environment preparation</h1>
+<p>Aim: prepare a local or docker machine for bioinformatic analysis.</p>
+<h2 id="linux-environment-preparation-based-in-linux-ubuntu-18.04-with-root-access">Linux environment preparation (based in Linux Ubuntu &gt;= 18.04 with root access)</h2>
+<h2 id="install-basics">Install basics</h2>
+<div class="sourceCode" id="cb1"><pre class="sourceCode bash"><code class="sourceCode bash"><a class="sourceLine" id="cb1-1" title="1"><span class="ex">apt</span> update -y <span class="kw">&amp;&amp;</span> <span class="ex">apt</span> upgrade -y</a></code></pre></div>
+<div class="sourceCode" id="cb2"><pre class="sourceCode bash"><code class="sourceCode bash"><a class="sourceLine" id="cb2-1" title="1"><span class="ex">apt</span> install -y \</a>
+<a class="sourceLine" id="cb2-2" title="2">    wget \</a>
+<a class="sourceLine" id="cb2-3" title="3">    python3-pip \</a>
+<a class="sourceLine" id="cb2-4" title="4">    python3-dev \</a>
+<a class="sourceLine" id="cb2-5" title="5">    python-dev \</a>
+<a class="sourceLine" id="cb2-6" title="6">    zip \</a>
+<a class="sourceLine" id="cb2-7" title="7">    unzip \</a>
+<a class="sourceLine" id="cb2-8" title="8">    default-jdk \</a>
+<a class="sourceLine" id="cb2-9" title="9">    curl \</a>
+<a class="sourceLine" id="cb2-10" title="10">    nano \</a>
+<a class="sourceLine" id="cb2-11" title="11">    git \</a>
+<a class="sourceLine" id="cb2-12" title="12">    gcc \</a>
+<a class="sourceLine" id="cb2-13" title="13">    zlib1g-dev \</a>
+<a class="sourceLine" id="cb2-14" title="14">    zlib1g \</a>
+<a class="sourceLine" id="cb2-15" title="15">    build-essential \</a>
+<a class="sourceLine" id="cb2-16" title="16">    r-base \</a>
+<a class="sourceLine" id="cb2-17" title="17">    pkg-config \</a>
+<a class="sourceLine" id="cb2-18" title="18">    libfreetype6-dev \</a>
+<a class="sourceLine" id="cb2-19" title="19">    libpng-dev \</a>
+<a class="sourceLine" id="cb2-20" title="20">    python-matplotlib \</a>
+<a class="sourceLine" id="cb2-21" title="21">    ncbi-blast+ \</a>
+<a class="sourceLine" id="cb2-22" title="22">    bwa hisat2 \</a>
+<a class="sourceLine" id="cb2-23" title="23">    bowtie2 \</a>
+<a class="sourceLine" id="cb2-24" title="24">    samtools</a></code></pre></div>
+<h3 id="install-the-main-dependencies-for-bioinformatics-as-cutadapt-biopython-ncbi-genome-download-and-ncbi-acc-download.">Install the main dependencies for bioinformatics, as <a href="https://pypi.org/project/cutadapt/">cutadapt</a>, <a href="https://pypi.org/project/biopython/">biopython</a>, <a href="https://pypi.org/project/ncbi-genome-download/">ncbi-genome-download</a>, and <a href="https://pypi.org/project/ncbi-acc-download/">ncbi-acc-download</a>.</h3>
+<p><code>cutadapt</code> contains…</p>
+<p><code>biopython</code> contains…</p>
+<div class="sourceCode" id="cb3"><pre class="sourceCode bash"><code class="sourceCode bash"><a class="sourceLine" id="cb3-1" title="1"><span class="ex">pip3</span> install --upgrade \</a>
+<a class="sourceLine" id="cb3-2" title="2">    cutadapt \</a>
+<a class="sourceLine" id="cb3-3" title="3">    biopython \</a>
+<a class="sourceLine" id="cb3-4" title="4">    ncbi-genome-download \</a>
+<a class="sourceLine" id="cb3-5" title="5">    ncbi-acc-download</a></code></pre></div>
+<h3 id="get-cpanminus-from-pre-compiled-source-code">Get CPANminus from <a href="http://cpanmin.us/">pre-compiled source code</a></h3>
+<div class="sourceCode" id="cb4"><pre class="sourceCode bash"><code class="sourceCode bash"><a class="sourceLine" id="cb4-1" title="1"><span class="ex">curl</span> -L http://cpanmin.us <span class="kw">|</span> <span class="fu">perl</span> - --force Time::HiRes</a></code></pre></div>
+<h3 id="sra-toolkit-2.9.6-1">SRA Toolkit &gt;= 2.9.6-1</h3>
+<div class="sourceCode" id="cb5"><pre class="sourceCode bash"><code class="sourceCode bash"><a class="sourceLine" id="cb5-1" title="1"><span class="fu">wget</span> \</a>
+<a class="sourceLine" id="cb5-2" title="2">    https://ftp-trace.ncbi.nlm.nih.gov/sra/sdk/current/sratoolkit.current-ubuntu64.tar.gz \</a>
+<a class="sourceLine" id="cb5-3" title="3">    <span class="kw">&amp;&amp;</span> <span class="fu">tar</span> -xzf sratoolkit.current-ubuntu64.tar.gz \</a>
+<a class="sourceLine" id="cb5-4" title="4">    <span class="kw">&amp;&amp;</span> <span class="fu">rm</span> sratoolkit.current-ubuntu64.tar.gz</a></code></pre></div>
+<div class="sourceCode" id="cb6"><pre class="sourceCode bash"><code class="sourceCode bash"><a class="sourceLine" id="cb6-1" title="1"><span class="fu">ln</span> -sfv /home/bioinfo/sratoolkit.2.9.6-1-ubuntu64/bin/* /usr/local/bin/</a></code></pre></div>
+<h3 id="trimmomatic-0.39">Trimmomatic-0.39</h3>
+<div class="sourceCode" id="cb7"><pre class="sourceCode bash"><code class="sourceCode bash"><a class="sourceLine" id="cb7-1" title="1"><span class="fu">wget</span> \</a>
+<a class="sourceLine" id="cb7-2" title="2">    http://www.usadellab.org/cms/uploads/supplementary/Trimmomatic/Trimmomatic-0.39.zip \</a>
+<a class="sourceLine" id="cb7-3" title="3">    <span class="kw">&amp;&amp;</span> <span class="fu">unzip</span> Trimmomatic-0.39.zip \</a>
+<a class="sourceLine" id="cb7-4" title="4">    <span class="kw">&amp;&amp;</span> <span class="fu">rm</span> Trimmomatic-0.39.zip</a></code></pre></div>
+<h3 id="spades-3.13">SPAdes-3.13</h3>
+<div class="sourceCode" id="cb8"><pre class="sourceCode bash"><code class="sourceCode bash"><a class="sourceLine" id="cb8-1" title="1"><span class="fu">wget</span> \</a>
+<a class="sourceLine" id="cb8-2" title="2">    http://cab.spbu.ru/files/release3.13.0/SPAdes-3.13.0-Linux.tar.gz \</a>
+<a class="sourceLine" id="cb8-3" title="3">    <span class="kw">&amp;&amp;</span> <span class="fu">tar</span> -xzf SPAdes-3.13.0-Linux.tar.gz \</a>
+<a class="sourceLine" id="cb8-4" title="4">    <span class="kw">&amp;&amp;</span> <span class="fu">rm</span> SPAdes-3.13.0-Linux.tar.gz</a></code></pre></div>
+<h3 id="quast-5.0.2">Quast-5.0.2</h3>
+<div class="sourceCode" id="cb9"><pre class="sourceCode bash"><code class="sourceCode bash"><a class="sourceLine" id="cb9-1" title="1"><span class="fu">wget</span> \</a>
+<a class="sourceLine" id="cb9-2" title="2">    https://sourceforge.net/projects/quast/files/quast-5.0.2.tar.gz \</a>
+<a class="sourceLine" id="cb9-3" title="3">    <span class="kw">&amp;&amp;</span> <span class="fu">tar</span> -xzf quast-5.0.2.tar.gz \</a>
+<a class="sourceLine" id="cb9-4" title="4">    <span class="kw">&amp;&amp;</span> <span class="fu">rm</span> quast-5.0.2.tar.gz</a></code></pre></div>
+<div class="sourceCode" id="cb10"><pre class="sourceCode bash"><code class="sourceCode bash"><a class="sourceLine" id="cb10-1" title="1"><span class="ex">quast-5.0.2/install_full.sh</span> <span class="kw">&amp;&amp;</span> <span class="fu">rm</span> -rf quast_test_output</a></code></pre></div>
+<h3 id="glimmer-3.02">Glimmer-3.02</h3>
+<div class="sourceCode" id="cb11"><pre class="sourceCode bash"><code class="sourceCode bash"><a class="sourceLine" id="cb11-1" title="1"><span class="fu">wget</span> \</a>
+<a class="sourceLine" id="cb11-2" title="2">    http://ccb.jhu.edu/software/glimmer/glimmer302b.tar.gz \</a>
+<a class="sourceLine" id="cb11-3" title="3">    <span class="kw">&amp;&amp;</span> <span class="fu">tar</span> -xzf glimmer302b.tar.gz \</a>
+<a class="sourceLine" id="cb11-4" title="4">    <span class="kw">&amp;&amp;</span> <span class="fu">rm</span> glimmer302b.tar.gz \</a>
+<a class="sourceLine" id="cb11-5" title="5">    <span class="kw">&amp;&amp;</span> <span class="bu">cd</span> glimmer3.02/src/ \</a>
+<a class="sourceLine" id="cb11-6" title="6">    <span class="kw">&amp;&amp;</span> <span class="fu">make</span> \</a>
+<a class="sourceLine" id="cb11-7" title="7">    <span class="kw">&amp;&amp;</span> <span class="bu">cd</span> /home/bioinfo</a></code></pre></div>
+<h1 id="de-novo-assembly">De novo assembly</h1>
+<p>Aim: perform a genome assembly without reference sequence.</p>
+<p>This tutorial explains how to:</p>
+<ol type="1">
+<li><p>Pull a docker environment (the same environment can be created using the steps described in <strong>Environment preparation</strong>) containing all tools necessary to perform the genome assembly and annotation;</p></li>
+<li><p>Get the genome of <em>Enterobacter cloacae</em> subsp. <em>cloacae</em> (NCTC 9394 isolate) from Genbank;</p></li>
+<li><p>Get the MEGAres database used for the prediction of resistance genes;</p></li>
+<li><p>Cleaning the SRA file (filtering step) using Trimmomatic;</p></li>
+<li><p>Sequence assembly using SPAdes;</p></li>
+<li><p>Generate descriptive statistics for the assembly using Quast;</p></li>
+<li><p>Predict resistance genes based on MEGAres database;</p></li>
+<li><p>And finally, annotate.</p></li>
+</ol>
+<h3 id="pull-docker-image-using-pure-docker-or-docker-compose-optional">Pull docker image using pure docker or docker-compose (optional)</h3>
+<p>The docker image should be pulled from Docker Hub using the command below. Alternatively, a non-docker Linux machine can be prepared following the steps described in the section Environment preparation.</p>
+<div class="sourceCode" id="cb12"><pre class="sourceCode bash"><code class="sourceCode bash"><a class="sourceLine" id="cb12-1" title="1"><span class="ex">docker</span> pull waldeyr/bioinfo:drug_resistance</a></code></pre></div>
+<p>Then, turn on the docker container using:</p>
+<div class="sourceCode" id="cb13"><pre class="sourceCode bash"><code class="sourceCode bash"><a class="sourceLine" id="cb13-1" title="1"><span class="ex">docker</span> run --rm -it waldeyr/bioinfo:drug_resistance </a></code></pre></div>
+<p>You can do it thought a docker-composer. Thus, create a .yml file:</p>
+<div class="sourceCode" id="cb14"><pre class="sourceCode bash"><code class="sourceCode bash"><a class="sourceLine" id="cb14-1" title="1"><span class="fu">touch</span> docker-compose.yml <span class="kw">&amp;&amp;</span> <span class="ex">vim</span> docker-compose.yml</a></code></pre></div>
+<p>and insert the content:</p>
+<div class="sourceCode" id="cb15"><pre class="sourceCode yml"><code class="sourceCode yaml"><a class="sourceLine" id="cb15-1" title="1"><span class="fu">version:</span><span class="at"> </span><span class="st">&quot;3&quot;</span></a>
+<a class="sourceLine" id="cb15-2" title="2"></a>
+<a class="sourceLine" id="cb15-3" title="3"><span class="fu">volumes:</span></a>
+<a class="sourceLine" id="cb15-4" title="4">  <span class="fu">analysis:</span><span class="at"> </span><span class="kw">{}</span></a>
+<a class="sourceLine" id="cb15-5" title="5"></a>
+<a class="sourceLine" id="cb15-6" title="6"><span class="fu">services:</span></a>
+<a class="sourceLine" id="cb15-7" title="7">  <span class="fu">machine:</span></a>
+<a class="sourceLine" id="cb15-8" title="8">    <span class="fu">container_name:</span><span class="at"> </span><span class="st">&quot;drug_resistance&quot;</span></a>
+<a class="sourceLine" id="cb15-9" title="9">    <span class="fu">image:</span><span class="at"> waldeyr/bioinfo:drug_resistance</span></a>
+<a class="sourceLine" id="cb15-10" title="10">    <span class="fu">volumes:</span></a>
+<a class="sourceLine" id="cb15-11" title="11">      <span class="kw">-</span> analysis:/home/</a></code></pre></div>
+<p>Then, start the container using:</p>
+<div class="sourceCode" id="cb16"><pre class="sourceCode bash"><code class="sourceCode bash"><a class="sourceLine" id="cb16-1" title="1"><span class="ex">docker-compose</span> run --rm machine</a></code></pre></div>
+<p>Using the docker-compose you have several advantages, including persist all parameters or/and create once all containers that composes the <em>orchestra</em>.</p>
+<h3 id="downloading-sequences">Downloading Sequences</h3>
+<p>Running the container, create all directories needed in this tutorial.</p>
+<div class="sourceCode" id="cb17"><pre class="sourceCode bash"><code class="sourceCode bash"><a class="sourceLine" id="cb17-1" title="1"><span class="fu">mkdir</span> /home/MEGAres /home/blast /home/data /home/glimmer</a></code></pre></div>
+<p>Then, download Illumina sequencing reads library from Genbank/SRA. The <code>--split-files</code> parameter split the paired-end file into forward and reverse files, respectively. The <code>fastq-dump</code> function are included in SRA Toolkit.</p>
+<div class="sourceCode" id="cb18"><pre class="sourceCode bash"><code class="sourceCode bash"><a class="sourceLine" id="cb18-1" title="1"><span class="bu">cd</span> /home/data \</a>
+<a class="sourceLine" id="cb18-2" title="2">    <span class="kw">&amp;&amp;</span> <span class="ex">fastq-dump</span> --verbose --split-files ERR037801</a></code></pre></div>
+<p>and also the drug resistance genes set (MEGARes, doi:10.1093/nar/gkw1009).</p>
+<div class="sourceCode" id="cb19"><pre class="sourceCode bash"><code class="sourceCode bash"><a class="sourceLine" id="cb19-1" title="1"><span class="bu">cd</span> ../MEGAres \</a>
+<a class="sourceLine" id="cb19-2" title="2">    <span class="kw">&amp;&amp;</span> <span class="fu">wget</span> https://megares.meglab.org/download/megares_v1.01/megares_database_v1.01.fasta \</a></code></pre></div>
+<h3 id="filtering">Filtering</h3>
+<p>First perform the filtering of data using <a href="https://doi.org/10.1093/bioinformatics/btu170">Trimmomatic</a> Java-based software.</p>
+<p>Parameters:</p>
+<ul>
+<li><p><code>PE</code>: for paired-end sequencing files;</p></li>
+<li><p><code>-phred33</code>: indicates the quality scoring scheme;</p></li>
+<li><p><code>ERR037801_*.fastq</code>: the input files;</p></li>
+<li><p><code>ERR037801_\*\_FILTERED.fastq</code> and <code>ERR037801_\*\_UNPAIRED.fastq</code>: paired and unpaired of forward and reverse reads respectively;</p></li>
+<li><p><code>ILLUMINACLIP</code>: specify the adapters file. In this case the the adapters set available by Trimmomatic was used, but a set of custom adapters would be provided instead;</p></li>
+<li><p><code>LEADING</code>: Remove low quality bases from the beginning. Specifies the minimum quality required to keep a base;</p></li>
+<li><p><code>TRAILING</code>: Remove low quality bases from the end. Specifies the minimum quality required to keep a base;</p></li>
+<li><p><code>SLIDINGWINDOW</code>: Perform a sliding window trimming, cutting once the average quality within the window falls below a threshold. By considering multiple bases, a single poor quality base will not cause the removal of high quality data later in the read.</p></li>
+<li><p><code>MINLEN</code>: removes reads that fall below the specified minimal length. Specifies the minimum length of reads to be kept;</p></li>
+<li><p><code>-validatePairs</code>: validate if sequences keep their pairs after filtering process (maybe removed at latest versions).</p></li>
+</ul>
+<div class="sourceCode" id="cb20"><pre class="sourceCode bash"><code class="sourceCode bash"><a class="sourceLine" id="cb20-1" title="1"><span class="ex">java</span> -jar \</a>
+<a class="sourceLine" id="cb20-2" title="2">    /home/bioinfo/Trimmomatic-0.39/trimmomatic-0.39.jar \</a>
+<a class="sourceLine" id="cb20-3" title="3">    PE -phred33 \</a>
+<a class="sourceLine" id="cb20-4" title="4">    /home/data/ERR037801_1.fastq \</a>
+<a class="sourceLine" id="cb20-5" title="5">    /home/data/ERR037801_2.fastq \</a>
+<a class="sourceLine" id="cb20-6" title="6">    /home/data/ERR037801_1_FILTERED.fastq \</a>
+<a class="sourceLine" id="cb20-7" title="7">    /home/data/ERR037801_1_UNPAIRED.fastq \</a>
+<a class="sourceLine" id="cb20-8" title="8">    /home/data/ERR037801_2_FILTERED.fastq \</a>
+<a class="sourceLine" id="cb20-9" title="9">    /home/data/ERR037801_2_UNPAIRED.fastq \</a>
+<a class="sourceLine" id="cb20-10" title="10">    ILLUMINACLIP:/home/bioinfo/Trimmomatic-0.39/adapters/TruSeq3-PE.fa:2:30:10 \</a>
+<a class="sourceLine" id="cb20-11" title="11">    LEADING:3 TRAILING:3 SLIDINGWINDOW:4:15 MINLEN:36 -validatePairs</a></code></pre></div>
+<p>OBS: Then <a href="http://www.usadellab.org/cms/?page=trimmomatic">read the documentation</a>: see the introduction from Trimmomatic manual.</p>
+<p>Trimmomatic is a fast, multi-threaded command line tool that can be used to trim and crop Illumina (FASTQ) data as well as to remove adapters. These adapters can pose a real problem depending on the library preparation and downstream application.</p>
+<p>There are two major modes of the program: Paired end mode and Single end mode. The paired end mode will maintain correspondence of read pairs and also use the additional information contained in paired reads to better find adapter or PCR primer fragments introduced by the library preparation process.</p>
+<p>Trimmomatic works with FASTQ files (using phred + 33 or phred + 64 quality scores, depending on the Illumina pipeline used). Files compressed using either <code>.gzip</code> or <code>.bzip2</code> are supported, and are identified by use of <code>.gz</code> or<code>.bz2</code> file extensions.</p>
+<h3 id="assembly">Assembly</h3>
+<p>Sequences assembly can take a long time. This process is performed using <code>SPAdes</code>, a Python software. <code>SPAdes</code> is a de Bruijn graph-based assembler. The Assemble Reads with SPAdes App allows the user to assemble a genome from reads using the <code>SPAdes 3.13.0</code> assembler, which is designed for <em>small genomes</em> and <em>single cell sequencing</em>.</p>
+<div class="sourceCode" id="cb21"><pre class="sourceCode bash"><code class="sourceCode bash"><a class="sourceLine" id="cb21-1" title="1"><span class="ex">python3</span> \</a>
+<a class="sourceLine" id="cb21-2" title="2">    /home/bioinfo/SPAdes-3.13.0-Linux/bin/spades.py \</a>
+<a class="sourceLine" id="cb21-3" title="3">    --pe1-1 /home/data/ERR037801_1_FILTERED.fastq \</a>
+<a class="sourceLine" id="cb21-4" title="4">    --pe1-2 /home/data/ERR037801_2_FILTERED.fastq \</a>
+<a class="sourceLine" id="cb21-5" title="5">    -t 4 --careful --cov-cutoff auto \</a>
+<a class="sourceLine" id="cb21-6" title="6">    -o /home/data/ERR037801_assembly</a></code></pre></div>
+<h3 id="get-assembly-stats">Get assembly stats</h3>
+<div class="sourceCode" id="cb22"><pre class="sourceCode bash"><code class="sourceCode bash"><a class="sourceLine" id="cb22-1" title="1"><span class="ex">/home/bioinfo/quast-5.0.2/quast.py</span> /home/data/ERR037801_assembly/contigs.fasta</a></code></pre></div>
+<h3 id="resistance-genes-prediction">Resistance genes prediction</h3>
+<p>About Glimmer (<a href="http://ccb.jhu.edu/software/glimmer/index.shtml">original description</a>): Glimmer is a system for finding genes in microbial DNA, especially the genomes of bacteria, archaea, and viruses. Glimmer (Gene Locator and Interpolated Markov ModelER) uses interpolated Markov models (IMMs) to identify the coding regions and distinguish them from noncoding DNA. The IMM approach is described in our original <a href="http://ccb.jhu.edu/papers/glimmer-nar.pdf">Nucleic Acids Research paper on Glimmer 1.0</a> and in our <a href="http://ccb.jhu.edu/papers/glimmer2.pdf">subsequent paper on Glimmer 2.0</a>. The IMM is a combination of Markov models from 1st through 8th-order, where the order used is determined by the amount of data available to train the model. In addition, the positions used as context for the model need not immediately precede the predicted postion but are determined by a decision procedure based on the predictive power of each position in the training data set (which we term an Interpolated Context Model or ICM). The models for coding sequence are 3-periodic nonhomogenous Markov models. Improvements made in version 3 of Glimmer are described in the <a href="http://ccb.jhu.edu/papers/glimmer3.pdf">third Glimmer paper</a>.</p>
+<p>First constructs the interpolated context model (ICM).</p>
+<div class="sourceCode" id="cb23"><pre class="sourceCode bash"><code class="sourceCode bash"><a class="sourceLine" id="cb23-1" title="1"><span class="ex">/home/bioinfo/glimmer3.02/bin/build-icm</span> \</a>
+<a class="sourceLine" id="cb23-2" title="2">    MEGARes <span class="op">&lt;</span> megares_database_v1.01.fasta</a></code></pre></div>
+<p>Next, predict genes based on MEGAres binary file.</p>
+<div class="sourceCode" id="cb24"><pre class="sourceCode bash"><code class="sourceCode bash"><a class="sourceLine" id="cb24-1" title="1"><span class="ex">/home/bioinfo/glimmer3.02/bin/glimmer3</span> \</a>
+<a class="sourceLine" id="cb24-2" title="2">    --linear \</a>
+<a class="sourceLine" id="cb24-3" title="3">    ERR037801_assembly/contigs.fasta \</a>
+<a class="sourceLine" id="cb24-4" title="4">    MEGARes \</a>
+<a class="sourceLine" id="cb24-5" title="5">    drug_resistence_genes</a></code></pre></div>
+<p>And, store results in a fasta file.</p>
+<div class="sourceCode" id="cb25"><pre class="sourceCode bash"><code class="sourceCode bash"><a class="sourceLine" id="cb25-1" title="1"><span class="ex">/home/bioinfo/glimmer3.02/bin/extract</span> \</a>
+<a class="sourceLine" id="cb25-2" title="2">    ERR037801_assembly/contigs.fasta \</a>
+<a class="sourceLine" id="cb25-3" title="3">    drug_resistence_genes.predict <span class="op">&gt;</span> \</a>
+<a class="sourceLine" id="cb25-4" title="4">    putative_drug_resistence_genes.fasta</a></code></pre></div>
+<h3 id="gene-annotation">Gene annotation</h3>
+<p>Annotate contigs based in the MEGAres database. Then, first build a reference database using:</p>
+<div class="sourceCode" id="cb26"><pre class="sourceCode bash"><code class="sourceCode bash"><a class="sourceLine" id="cb26-1" title="1"><span class="ex">makeblastdb</span> \</a>
+<a class="sourceLine" id="cb26-2" title="2">    -dbtype nucl \</a>
+<a class="sourceLine" id="cb26-3" title="3">    -in /home/MEGAres/megares_database_v1.01.fasta \</a>
+<a class="sourceLine" id="cb26-4" title="4">    -out /home/blast/MEGARes</a></code></pre></div>
+<p>and performing a blast comparison:</p>
+<div class="sourceCode" id="cb27"><pre class="sourceCode bash"><code class="sourceCode bash"><a class="sourceLine" id="cb27-1" title="1"><span class="ex">blastn</span> \</a>
+<a class="sourceLine" id="cb27-2" title="2">    -query putative_drug_resistence_genes.fasta \</a>
+<a class="sourceLine" id="cb27-3" title="3">    -evalue 10e-5 -db MEGARes \</a>
+<a class="sourceLine" id="cb27-4" title="4">    -out putative_drug_resistence_genes_annotated.csv</a></code></pre></div>
+<p>You can optionally export the blastn results in a csv file including the <code>-outfmt=10</code> parameter (the number after equal signal can be change according the desired format, see documentation or simple use <code>blastn -help</code>).</p>
+<h3 id="extract-results-from-container-optional">Extract results from container (optional)</h3>
+<p>Results from docker container are stored inside it. You can copy them to a local repository running:</p>
+<p><code>docker cp &lt;CONTAINER_ID&gt;:&lt;CONTAINER_PATH&gt; &lt;LOCAL_DIRECTORY_PATH&gt;</code></p>
+<ul>
+<li><p><code>docker cp</code>: the docker software call and the linux copy command (<code>cp</code>) to execute the action;</p></li>
+<li><p><code>CONTAINER_ID</code>: the container ID recovered using <code>docker ps</code>;</p></li>
+<li><p><code>CONTAINER_PATH</code>: the directory of docker image containing the files to recovery;</p></li>
+<li><p><code>LOCAL_DIRECTORY_PATH</code>: the local directory to store the results files.</p></li>
+</ul>
+<p>Example:</p>
+<div class="sourceCode" id="cb28"><pre class="sourceCode bash"><code class="sourceCode bash"><a class="sourceLine" id="cb28-1" title="1"><span class="ex">docker</span> cp 90ffb38c27c9:home/ ./path/</a></code></pre></div>
+<h1 id="genome-assembly-with-reference-genome">Genome assembly with reference genome</h1>
+<p>Aim: perform a genome assembly with reference sequence.</p>
+<p>This tutorial explains how to:</p>
+<ol type="1">
+<li><p>Get the genome of <em>Enterobacter cloacae</em> subsp. <em>cloacae</em> (NCTC 9394 isolate) from Genbank;</p></li>
+<li><p>Get the MEGAres database used for the prediction of resistance genes;</p></li>
+<li><p>Cleaning the SRA file (filtering step) using Trimmomatic;</p></li>
+<li><p>Get a reference genome;</p></li>
+<li><p>Indexing reference genome and map reads to reference;</p></li>
+<li><p>And finally, generate SAM and BAM files with mapped results.</p></li>
+</ol>
+<p>NOTE: Use the same environment created at the last tutorial.</p>
+<h3 id="downloading-sequences-1">Downloading Sequences</h3>
+<p>Running the container, create all directories needed in this tutorial.</p>
+<div class="sourceCode" id="cb29"><pre class="sourceCode bash"><code class="sourceCode bash"><a class="sourceLine" id="cb29-1" title="1"><span class="fu">mkdir</span> /home/MEGAres /home/blast /home/data /home/glimmer</a></code></pre></div>
+<p>Then, download Illumina sequencing reads library from Genbank/SRA. The <code>--split-files</code> parameter split the paired-end file into forward and reverse files, respectively. The <code>fastq-dump</code> function are included in SRA Toolkit.</p>
+<div class="sourceCode" id="cb30"><pre class="sourceCode bash"><code class="sourceCode bash"><a class="sourceLine" id="cb30-1" title="1"><span class="bu">cd</span> /home/data \</a>
+<a class="sourceLine" id="cb30-2" title="2">    <span class="kw">&amp;&amp;</span> <span class="ex">fastq-dump</span> --verbose --split-files ERR037801</a></code></pre></div>
+<p>and also the drug resistance genes set (MEGARes, doi:10.1093/nar/gkw1009).</p>
+<div class="sourceCode" id="cb31"><pre class="sourceCode bash"><code class="sourceCode bash"><a class="sourceLine" id="cb31-1" title="1"><span class="bu">cd</span> ../MEGAres \</a>
+<a class="sourceLine" id="cb31-2" title="2">    <span class="kw">&amp;&amp;</span> <span class="fu">wget</span> https://megares.meglab.org/download/megares_v1.01/megares_database_v1.01.fasta \</a></code></pre></div>
+<h3 id="filtering-1">Filtering</h3>
+<p>First perform the filtering of data using <a href="https://doi.org/10.1093/bioinformatics/btu170">Trimmomatic</a> Java-based software.</p>
+<p>Parameters:</p>
+<ul>
+<li><p><code>PE</code>: for paired-end sequencing files;</p></li>
+<li><p><code>-phred33</code>: indicates the quality scoring scheme;</p></li>
+<li><p><code>ERR037801_*.fastq</code>: the input files;</p></li>
+<li><p><code>ERR037801_\*\_FILTERED.fastq</code> and <code>ERR037801_\*\_UNPAIRED.fastq</code>: paired and unpaired of forward and reverse reads respectively;</p></li>
+<li><p><code>ILLUMINACLIP</code>: specify the adapters file. In this case the the adapters set available by Trimmomatic was used, but a set of custom adapters would be provided instead;</p></li>
+<li><p><code>LEADING</code>: Remove low quality bases from the beginning. Specifies the minimum quality required to keep a base;</p></li>
+<li><p><code>TRAILING</code>: Remove low quality bases from the end. Specifies the minimum quality required to keep a base;</p></li>
+<li><p><code>SLIDINGWINDOW</code>: Perform a sliding window trimming, cutting once the average quality within the window falls below a threshold. By considering multiple bases, a single poor quality base will not cause the removal of high quality data later in the read.</p></li>
+<li><p><code>MINLEN</code>: removes reads that fall below the specified minimal length. Specifies the minimum length of reads to be kept;</p></li>
+<li><p><code>-validatePairs</code>: validate if sequences keep their pairs after filtering process (maybe removed at latest versions).</p></li>
+</ul>
+<div class="sourceCode" id="cb32"><pre class="sourceCode bash"><code class="sourceCode bash"><a class="sourceLine" id="cb32-1" title="1"><span class="ex">java</span> -jar \</a>
+<a class="sourceLine" id="cb32-2" title="2">    /home/bioinfo/Trimmomatic-0.39/trimmomatic-0.39.jar \</a>
+<a class="sourceLine" id="cb32-3" title="3">    PE -phred33 \</a>
+<a class="sourceLine" id="cb32-4" title="4">    /home/data/ERR037801_1.fastq \</a>
+<a class="sourceLine" id="cb32-5" title="5">    /home/data/ERR037801_2.fastq \</a>
+<a class="sourceLine" id="cb32-6" title="6">    /home/data/ERR037801_1_FILTERED.fastq \</a>
+<a class="sourceLine" id="cb32-7" title="7">    /home/data/ERR037801_1_UNPAIRED.fastq \</a>
+<a class="sourceLine" id="cb32-8" title="8">    /home/data/ERR037801_2_FILTERED.fastq \</a>
+<a class="sourceLine" id="cb32-9" title="9">    /home/data/ERR037801_2_UNPAIRED.fastq \</a>
+<a class="sourceLine" id="cb32-10" title="10">    ILLUMINACLIP:/home/bioinfo/Trimmomatic-0.39/adapters/TruSeq3-PE.fa:2:30:10 \</a>
+<a class="sourceLine" id="cb32-11" title="11">    LEADING:3 TRAILING:3 SLIDINGWINDOW:4:15 MINLEN:36 -validatePairs</a></code></pre></div>
+<p>OBS: Then <a href="http://www.usadellab.org/cms/?page=trimmomatic">read the documentation</a>: see the introduction from Trimmomatic manual.</p>
+<p>Trimmomatic is a fast, multi-threaded command line tool that can be used to trim and crop Illumina (FASTQ) data as well as to remove adapters. These adapters can pose a real problem depending on the library preparation and downstream application.</p>
+<p>There are two major modes of the program: Paired end mode and Single end mode. The paired end mode will maintain correspondence of read pairs and also use the additional information contained in paired reads to better find adapter or PCR primer fragments introduced by the library preparation process.</p>
+<p>Trimmomatic works with FASTQ files (using phred + 33 or phred + 64 quality scores, depending on the Illumina pipeline used). Files compressed using either <code>.gzip</code> or <code>.bzip2</code> are supported, and are identified by use of <code>.gz</code> or<code>.bz2</code> file extensions.</p>
+<h3 id="assembly-1">Assembly</h3>
+<h4 id="download-reference-genome">Download reference genome</h4>
+<p>First create a dedicated directory for the reference genome.</p>
+<div class="sourceCode" id="cb33"><pre class="sourceCode bash"><code class="sourceCode bash"><a class="sourceLine" id="cb33-1" title="1"><span class="fu">mkdir</span> reference_genome</a></code></pre></div>
+<p>Then download it.</p>
+<div class="sourceCode" id="cb34"><pre class="sourceCode bash"><code class="sourceCode bash"><a class="sourceLine" id="cb34-1" title="1"><span class="ex">ncbi-genome-download</span> bacteria \</a>
+<a class="sourceLine" id="cb34-2" title="2">    -g Enterobacter \</a>
+<a class="sourceLine" id="cb34-3" title="3">    -T 550 \</a>
+<a class="sourceLine" id="cb34-4" title="4">    -l complete \</a>
+<a class="sourceLine" id="cb34-5" title="5">    -F fasta \</a>
+<a class="sourceLine" id="cb34-6" title="6">    -N -v</a></code></pre></div>
+<div class="sourceCode" id="cb35"><pre class="sourceCode bash"><code class="sourceCode bash"><a class="sourceLine" id="cb35-1" title="1"><span class="fu">gunzip</span> \</a>
+<a class="sourceLine" id="cb35-2" title="2">    refseq/bacteria/GCF_000025565.1/GCF_000025565.1_ASM2556v1_genomic.fna.gz \</a>
+<a class="sourceLine" id="cb35-3" title="3">    <span class="kw">&amp;&amp;</span> <span class="fu">cp</span> refseq/bacteria/GCF_000025565.1/GCF_000025565.1_ASM2556v1_genomic.fna .</a></code></pre></div>
+<h4 id="genome-index-for-bwa">Genome index for bwa</h4>
+<p><code>hisat2-build GCF_000025565.1_ASM2556v1_genomic.fna GCF_000025565.1_ASM2556v1_genomic.idx</code></p>
+<h4 id="map-reads-to-the-reference-genome">Map reads to the reference genome</h4>
+<p><code>hisat2 -1 ERR037801_1_FILTERED.fastq -2 ERR037801_2_FILTERED.fastq --summary-file summary.txt -p 4 --no-discordant --no-mixed -x GCF_000025565.1_ASM2556v1_genomic.idx -S hisat2_result.sam</code></p>
+<h4 id="convert-and-sort-sam-to-bam">Convert and sort sam to bam</h4>
+<p><code>samtools view -bS hisat2_result.sam | samtools sort -o hisat2_result.bam</code></p>
+<h4 id="create-index-for-the-sorted-bam">Create index for the sorted bam</h4>
+<p><code>samtools index hisat2_result.bam hisat2_result.bai</code></p>
+<h4 id="count-mapped-reads">Count mapped reads</h4>
+<p><code>samtools view -bS hisat2_result.sam | cut -f1 | sort | uniq | wc -l</code></p>
+<h4 id="svn">SVN</h4>
+<p><code>samtools mpileup -f GCF_000025565.1_ASM2556v1_genomic.fna -v -u hisat2_result.bam &gt; hisat2_result.mpileup</code></p>
+<p><code>sed -n '500,515p' hisat2_result.mpileup</code></p>
+<h1 id="explore-rnaseq-results">Explore RNAseq results</h1>
+<p>Aim: explore RNAseq results.</p>
+<p>This tutorial explains how to:</p>
+<p>………………</p>
+<p>RNASeq Usando o container Docker waldeyr/rnaseq:1.0 (~7 GB), baixar o container:</p>
+<p>docker pull waldeyr/rnaseq:1.0 Rodar o container mapeando a pasta atual para a pasta /home/shared do container: docker run -v $(pwd):/home/shared –rm -it waldeyr/rnaseq:1.0 cd /home cat <em>.left.fq &gt; reads.ALL.left.fq cat </em>.right.fq &gt; reads.ALL.right.fq ## Running analyses</p>
+<h3 id="assembly-and-assembly-stats">Assembly and assembly stats</h3>
+<p>Trinity –CPU 4 –max_memory 8G –seqType fq –SS_lib_type RF –left reads.ALL.left.fq –right reads.ALL.right.fq $TRINITY_HOME/util/TrinityStats.pl trinity_out_dir/Trinity.fasta ### Checking transcripts matches among this study and the reference organism with Blast</p>
+<p>makeblastdb -in GCF_000002945.1_ASM294v2_rna.fna -dbtype nucl blastn -query trinity_out_dir/Trinity.fasta -db GCF_000002945.1_ASM294v2_rna.fna -out Trinity_vs_S_pombe_rna.blastn -evalue 1e-20 -dust no -task megablast -num_threads 2 -max_target_seqs 1 -outfmt 6 $TRINITY_HOME/util/analyze_blastPlus_topHit_coverage.pl Trinity_vs_S_pombe_rna.blastn trinity_out_dir/Trinity.fasta GCF_000002945.1_ASM294v2_rna.fna ### Abundance estimation</p>
+<p>$TRINITY_HOME/util/align_and_estimate_abundance.pl –transcripts trinity_out_dir/Trinity.fasta –seqType fq –left Sp.ds.1M.left.fq –right Sp.ds.1M.right.fq –est_method RSEM –aln_method bowtie –trinity_mode –prep_reference –output_dir rsem_DS_outdir $TRINITY_HOME/util/align_and_estimate_abundance.pl –transcripts trinity_out_dir/Trinity.fasta –seqType fq –left Sp.hs.1M.left.fq –right Sp.hs.1M.right.fq –est_method RSEM –aln_method bowtie –trinity_mode –prep_reference –output_dir rsem_HS_outdir $TRINITY_HOME/util/align_and_estimate_abundance.pl –transcripts trinity_out_dir/Trinity.fasta –seqType fq –left Sp.log.1M.left.fq –right Sp.log.1M.right.fq –est_method RSEM –aln_method bowtie –trinity_mode –prep_reference –output_dir rsem_LOG_outdir $TRINITY_HOME/util/align_and_estimate_abundance.pl –transcripts trinity_out_dir/Trinity.fasta –seqType fq –left Sp.plat.1M.left.fq –right Sp.plat.1M.right.fq –est_method RSEM –aln_method bowtie –trinity_mode –prep_reference –output_dir rsem_PLAT_outdir</p>
+<h4 id="matrix">Matrix</h4>
+<p>$TRINITY_HOME/util/abundance_estimates_to_matrix.pl –gene_trans_map trinity_out_dir/Trinity.fasta.gene_trans_map –est_method RSEM –name_sample_by_basedir rsem_DS_outdir/RSEM.isoforms.results rsem_HS_outdir/RSEM.isoforms.results rsem_LOG_outdir/RSEM.isoforms.results rsem_PLAT_outdir/RSEM.isoforms.results #### Plot Heatmap</p>
+<p>Rscript plotHeatMap.R # Bioinformatic Fundamentals</p>
+<p>Note: The original version is provided by Prof. Waldeyr Mendes Cordeiro da Silva, see on <a href="https://github.com/waldeyr">Github</a>.</p>
+<p>This tutorial contain four main parts:</p>
+<ol type="1">
+<li><p><strong>01_environment_preparation</strong>: contains all scripts to prepare a local or docker machine for bioinformatic analysis;</p></li>
+<li><p><strong>02_de_novo_assembly</strong>: genome assembly without reference sequence;</p></li>
+<li><p><strong>03_with_reference_assembly</strong>: genome assembly with reference sequence;</p></li>
+<li><p><strong>04_rna_seq</strong>: explore RNAseq results.</p></li>
+</ol>
+<p>If you’re interested in trying this out, just clone the repository and execute the command <code>pandoc *.md &gt; markdown_book.html</code> in the root directory of the repo (<a href="https://github.com/akmassey/markdown-multiple-files-example">details for multi.md files repository preparation and compilation</a>). Additional parameter would be supplied to produce a user friendly document:</p>
+<div class="sourceCode" id="cb36"><pre class="sourceCode bash"><code class="sourceCode bash"><a class="sourceLine" id="cb36-1" title="1"><span class="ex">pandoc</span> -V geometry:margin=0.85in --highlight-style=breezedark *.md <span class="op">&gt;</span> markdown_book.html</a></code></pre></div>
