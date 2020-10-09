@@ -1,4 +1,4 @@
-# Explore RNAseq results
+# Explore RNAseq results (NOT FINISHED)
 
 Aim: explore RNAseq results.
 

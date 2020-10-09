@@ -1,4 +1,4 @@
-# Genome assembly with reference genome
+# Genome assembly with reference genome (NOT FINISHED)
 
 Aim: perform a genome assembly with reference sequence.
 

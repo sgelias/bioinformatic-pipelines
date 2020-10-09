@@ -40,10 +40,6 @@ apt install -y \
 
 ### Install the main dependencies for bioinformatics, as [cutadapt](https://pypi.org/project/cutadapt/), [biopython](https://pypi.org/project/biopython/), [ncbi-genome-download](https://pypi.org/project/ncbi-genome-download/), and [ncbi-acc-download](https://pypi.org/project/ncbi-acc-download/).
 
-`cutadapt` contains...
-
-`biopython` contains...
-
 ```bash
 pip3 install --upgrade \
     cutadapt \
