@@ -1,4 +1,4 @@
-# De novo assembly
+# De novo assembly (NOT FINISHED)
 
 Aim: perform a genome assembly without reference sequence.
 
@@ -83,7 +83,7 @@ and also the drug resistance genes set (MEGARes, doi:10.1093/nar/gkw1009).
 
 ```bash
 cd ../MEGAres \
-    && wget https://megares.meglab.org/download/megares_v1.01/megares_database_v1.01.fasta \
+    && wget https://megares.meglab.org/download/megares_v1.01/megares_database_v1.01.fasta
 ```
 
 ### Filtering
@@ -233,4 +233,11 @@ Example:
 
 ```bash
 docker cp 90ffb38c27c9:home/ ./path/
+```
+
+The process would be automatized using a simple shell script:
+
+
+```bash
+
 ```

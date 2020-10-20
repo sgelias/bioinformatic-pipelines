@@ -100,6 +100,9 @@ quast-5.0.2/install_full.sh && rm -rf quast_test_output
 
 ### Glimmer-3.02
 
+# FALTA RODAR ESSE AQUI
+
+
 ```bash
 wget \
     http://ccb.jhu.edu/software/glimmer/glimmer302b.tar.gz \
@@ -107,6 +110,6 @@ wget \
     && rm glimmer302b.tar.gz \
     && cd glimmer3.02/src/ \
     && make \
-    && cd /home/bioinfo
+    && cd /home/bio-softwares
 ```
 
