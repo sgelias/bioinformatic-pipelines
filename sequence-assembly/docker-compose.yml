@@ -9,3 +9,4 @@ services:
       - './data:/home/data:delegated'
       - './bio-softwares:/home/bio-softwares:delegated'
       - './de-novo:/home/de-novo:delegated'
+      - './ref-map:/home/ref-map:delegated'

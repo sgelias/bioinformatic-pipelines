@@ -213,3 +213,13 @@ samtools mpileup \
 ```bash
 sed -n '500,515p' hisat2_result.mpileup
 ```
+
+Example:
+
+```bash
+docker cp 90ffb38c27c9:home/ ./path/
+```
+
+A shell script containing all code explained above combined in a single pipeline is available at the `03_with_reference_assembly.sh` file located in the `~/sequence-assembly/scripts/` directory. It can be used to automated run all steps.
+
+NOTE: some divergences can occur between this file and the shell script (`03_with_reference_assembly.sh`).

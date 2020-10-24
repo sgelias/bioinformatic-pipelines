@@ -93,7 +93,7 @@ BLAST="blast"
 	mkdir ${ASSEMBLY}
 
 [ -d ${REFERENCE} ] &&
-	echo -e "${WARN} MEGAres ${MESSAGE}" ||
+	echo -e "${WARN} reference ${MESSAGE}" ||
 	mkdir ${REFERENCE}
 
 [ -d ${GLIMMER} ] &&

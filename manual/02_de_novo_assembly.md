@@ -236,3 +236,5 @@ docker cp 90ffb38c27c9:home/ ./path/
 ```
 
 A shell script containing all code explained above combined in a single pipeline is available at the `02_de_novo_assembly.sh` file located in the `~/sequence-assembly/scripts/` directory. It can be used to automated run all steps.
+
+NOTE: some divergences can occur between this file and the shell script (`02_de_novo_assembly.sh`).
