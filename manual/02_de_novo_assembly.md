@@ -235,9 +235,4 @@ Example:
 docker cp 90ffb38c27c9:home/ ./path/
 ```
 
-The process would be automatized using a simple shell script:
-
-
-```bash
-
-```
+A shell script containing all code explained above combined in a single pipeline is available at the `02_de_novo_assembly.sh` file located in the `~/sequence-assembly/scripts/` directory. It can be used to automated run all steps.

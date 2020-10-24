@@ -5,4 +5,7 @@ services:
     container_name: "drug_resistance_prediction"
     build: . 
     volumes:
-      - './de-novo/:/home/:delegated'
+      - './scripts:/home/scripts:delegated'
+      - './data:/home/data:delegated'
+      - './bio-softwares:/home/bio-softwares:delegated'
+      - './de-novo:/home/de-novo:delegated'

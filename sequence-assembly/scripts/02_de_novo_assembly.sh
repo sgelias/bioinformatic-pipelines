@@ -14,10 +14,6 @@ export TZ=/usr/share/zoneinfo/America/Sao_Paulo
 source "./colors.sh"
 
 : "# ************************************************ #"
-: "Set the base work directory."
-
-BASE_DIR='/home'
-
 : "Verify it the input was passed as parameter."
 
 if [[ ! $1 ]]; then
@@ -28,6 +24,13 @@ else
 fi
 
 echo -e "${SUCCESS} Target: $TARGET"
+
+: "# ************************************************ #"
+: "Set base variables."
+
+BASE_DIR='/home/de-novo'
+SOFTWARES_DIR='/home/bio-softwares'
+DATA_DIR='/home/data'
 
 : "# ************************************************ #"
 : "Create the control file. It should be used in flux control of pipeline."
@@ -80,27 +83,26 @@ MESSAGE="directory exists. Please specify a new base directory defining 'BASE_DI
 
 cd $BASE_DIR
 
-MEGARES="MEGAres"
-[ -d ${MEGARES} ] &&
-	echo -e "${WARN} MEGAres ${MESSAGE}" ||
-	mkdir ${MEGARES}
-
-BLAST="blast"
-[ -d ${BLAST} ] &&
-	echo -e "${WARN} blast ${MESSAGE}" ||
-	mkdir ${BLAST}
-
-DATA="data"
-[ -d ${DATA} ] &&
-	echo -e "${WARN} data ${MESSAGE}" ||
-	mkdir ${DATA}
-
+ASSEMBLY="assembly"
+REFERENCE="reference"
 GLIMMER="glimmer"
+BLAST="blast"
+
+[ -d ${ASSEMBLY} ] &&
+	echo -e "${WARN} data ${MESSAGE}" ||
+	mkdir ${ASSEMBLY}
+
+[ -d ${REFERENCE} ] &&
+	echo -e "${WARN} MEGAres ${MESSAGE}" ||
+	mkdir ${REFERENCE}
+
 [ -d ${GLIMMER} ] &&
 	echo -e "${WARN} glimmer ${MESSAGE}" ||
 	mkdir ${GLIMMER}
 
-ls -l
+[ -d ${BLAST} ] &&
+	echo -e "${WARN} blast ${MESSAGE}" ||
+	mkdir ${BLAST}
 
 : "# ************************************************ #"
 : "Downloading record from Genbank."
@@ -108,9 +110,9 @@ ls -l
 echo -e "${INFO} Download target record"
 
 if [[ $DENOVO_DOWNLOAD_TARGET = 0 ]]; then
-	cd ${DATA} &&
+	cd ${DATA_DIR} &&
 		fastq-dump --split-files $TARGET &&
-		cd ..
+		cd ${BASE_DIR}
 
 	set_control_variables 0 DENOVO_DOWNLOAD_TARGET
 else
@@ -123,9 +125,9 @@ fi
 echo -e "${INFO} Download reference record"
 
 if [[ $DENOVO_DOWNLOAD_REFERENCE = 0 ]]; then
-	cd ${MEGARES} &&
+	cd ${BASE_DIR}/${REFERENCE} &&
 		wget https://megares.meglab.org/download/megares_v1.01/megares_database_v1.01.fasta &&
-		cd ..
+		cd ${BASE_DIR}
 
 	set_control_variables 0 DENOVO_DOWNLOAD_REFERENCE
 else
@@ -138,31 +140,32 @@ fi
 echo -e "${INFO} Filtering, assembly, and get stats"
 
 if [[ $DENOVO_FILTERING = 0 ]]; then
-	cd ${DATA} &&
+	cd ${BASE_DIR}/${ASSEMBLY} &&
 		java -jar \
-			../bio-softwares/Trimmomatic-0.39/trimmomatic-0.39.jar \
+			${SOFTWARES_DIR}/Trimmomatic-0.39/trimmomatic-0.39.jar \
 			PE -phred33 \
-			${TARGET}_1.fastq \
-			${TARGET}_2.fastq \
+			-threads 6 \
+			${DATA_DIR}/${TARGET}_1.fastq \
+			${DATA_DIR}/${TARGET}_2.fastq \
 			${TARGET}_1_FILTERED.fastq \
 			${TARGET}_1_UNPAIRED.fastq \
 			${TARGET}_2_FILTERED.fastq \
 			${TARGET}_2_UNPAIRED.fastq \
-			ILLUMINACLIP:../bio-softwares/Trimmomatic-0.39/adapters/TruSeq3-PE.fa:2:30:10 \
+			ILLUMINACLIP:${SOFTWARES_DIR}/Trimmomatic-0.39/adapters/TruSeq3-PE.fa:2:30:10 \
 			LEADING:3 \
 			TRAILING:3 \
 			SLIDINGWINDOW:4:15 \
 			MINLEN:36 \
 			-validatePairs &&
 		python3 \
-			../bio-softwares/SPAdes-3.13.0-Linux/bin/spades.py \
+			${SOFTWARES_DIR}/SPAdes-3.13.0-Linux/bin/spades.py \
 			--pe1-1 ${TARGET}_1_FILTERED.fastq \
 			--pe1-2 ${TARGET}_2_FILTERED.fastq \
 			-t 4 --careful --cov-cutoff auto \
 			-o ${TARGET}_assembly &&
-		./bio-softwares/quast-5.0.2/quast.py \
+		${SOFTWARES_DIR}/quast-5.0.2/quast.py \
 			${TARGET}_assembly/contigs.fasta &&
-		cd ..
+		cd ${BASE_DIR}
 
 	set_control_variables 0 DENOVO_FILTERING
 else
@@ -175,19 +178,19 @@ fi
 echo -e "${INFO} Resistance genes prediction"
 
 if [ $DENOVO_PREDICT = 0 ]; then
-	cd ${MEGARES} &&
-		./bio-softwares/glimmer3.02/bin/build-icm \
+	cd ${BASE_DIR}/${REFERENCE} &&
+		${SOFTWARES_DIR}/glimmer3.02/bin/build-icm \
 			MEGARes <megares_database_v1.01.fasta &&
-		./bio-softwares/glimmer3.02/bin/glimmer3 \
+		${SOFTWARES_DIR}/glimmer3.02/bin/glimmer3 \
 			--linear \
-			../${DATA}/${TARGET}_assembly/contigs.fasta \
+			${BASE_DIR}/${ASSEMBLY}/${TARGET}_assembly/contigs.fasta \
 			MEGARes \
 			drug_resistence_genes &&
-		./bio-softwares/glimmer3.02/bin/extract \
-			../${DATA}/${TARGET}_assembly/contigs.fasta \
+		${SOFTWARES_DIR}/glimmer3.02/bin/extract \
+			${BASE_DIR}/${ASSEMBLY}/${TARGET}_assembly/contigs.fasta \
 			drug_resistence_genes.predict > \
 			putative_drug_resistence_genes.fasta &&
-		cd ..
+		cd ${BASE_DIR}
 
 	set_control_variables 0 DENOVO_PREDICT
 else
@@ -200,16 +203,18 @@ fi
 echo -e "${INFO} Gene annotation"
 
 if [ $DENOVO_ANNOTATE = 0 ]; then
-	cd ${BLAST} &&
+	cd ${BASE_DIR}/${BLAST} &&
 		makeblastdb \
 			-dbtype nucl \
-			-in ../${MEGARES}/megares_database_v1.01.fasta \
+			-in ${BASE_DIR}/${REFERENCE}/megares_database_v1.01.fasta \
 			-out MEGARes &&
 		blastn \
-			-query putative_drug_resistence_genes.fasta \
-			-evalue 10e-5 -db MEGARes \
-			-out putative_drug_resistence_genes_annotated.csv &&
-		cd ..
+			-query ${BASE_DIR}/${REFERENCE}/putative_drug_resistence_genes.fasta \
+			-evalue 10e-5 \
+			-outfmt "10" \
+			-db MEGARes \
+			-out putative_drug_resistence_genes_annotated &&
+		cd ${BASE_DIR}
 
 	set_control_variables 0 DENOVO_ANNOTATE
 else

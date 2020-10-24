@@ -1,8 +1,8 @@
 # Bioinformatic Fundamentals
 
-Note: The original version is provided by Prof. Waldeyr Mendes Cordeiro da Silva, see on [Github](https://github.com/waldeyr).
+Note: The original version is provided by Prof. **Waldeyr Mendes Cordeiro da Silva**, see on [Github](https://github.com/waldeyr).
 
-This tutorial contain four main parts:
+This tutorial contain four main parts available on `manual` directory (there is not also finished, thus take care):
 
 1. **01_environment_preparation**: contains all scripts to prepare a local or docker machine for bioinformatic analysis;
 
