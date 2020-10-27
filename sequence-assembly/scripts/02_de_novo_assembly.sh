@@ -148,9 +148,8 @@ echo -e "${INFO} Download target record"
 if [[ $DENOVO_DOWNLOAD_TARGET = 0 ]]; then
 	cd ${DATA_DIR} &&
 		fastq-dump --split-files $TARGET &&
-		cd ${BASE_DIR}
-
-	set_control_variables 0 DENOVO_DOWNLOAD_TARGET
+		cd ${BASE_DIR} &&
+		set_control_variables 0 DENOVO_DOWNLOAD_TARGET
 else
 	set_control_variables 1 DENOVO_DOWNLOAD_TARGET
 fi
@@ -163,9 +162,8 @@ echo -e "${INFO} Download reference record"
 if [[ $DENOVO_DOWNLOAD_REFERENCE = 0 ]]; then
 	cd ${BASE_DIR}/${REFERENCE} &&
 		wget https://megares.meglab.org/download/megares_v1.01/megares_database_v1.01.fasta &&
-		cd ${BASE_DIR}
-
-	set_control_variables 0 DENOVO_DOWNLOAD_REFERENCE
+		cd ${BASE_DIR} &&
+		set_control_variables 0 DENOVO_DOWNLOAD_REFERENCE
 else
 	set_control_variables 1 DENOVO_DOWNLOAD_REFERENCE
 fi
@@ -201,9 +199,8 @@ if [[ $DENOVO_FILTERING = 0 ]]; then
 			-o ${TARGET}_assembly &&
 		${SOFTWARES_DIR}/quast-5.0.2/quast.py \
 			${TARGET}_assembly/contigs.fasta &&
-		cd ${BASE_DIR}
-
-	set_control_variables 0 DENOVO_FILTERING
+		cd ${BASE_DIR} &&
+		set_control_variables 0 DENOVO_FILTERING
 else
 	set_control_variables 1 DENOVO_FILTERING
 fi
@@ -226,9 +223,8 @@ if [ $DENOVO_PREDICT = 0 ]; then
 			${BASE_DIR}/${ASSEMBLY}/${TARGET}_assembly/contigs.fasta \
 			drug_resistence_genes.predict > \
 			putative_drug_resistence_genes.fasta &&
-		cd ${BASE_DIR}
-
-	set_control_variables 0 DENOVO_PREDICT
+		cd ${BASE_DIR} &&
+		set_control_variables 0 DENOVO_PREDICT
 else
 	set_control_variables 1 DENOVO_PREDICT
 fi
@@ -250,9 +246,8 @@ if [ $DENOVO_ANNOTATE = 0 ]; then
 			-outfmt "10" \
 			-db MEGARes \
 			-out putative_drug_resistence_genes_annotated &&
-		cd ${BASE_DIR}
-
-	set_control_variables 0 DENOVO_ANNOTATE
+		cd ${BASE_DIR} &&
+		set_control_variables 0 DENOVO_ANNOTATE
 else
 	set_control_variables 1 DENOVO_ANNOTATE
 fi
