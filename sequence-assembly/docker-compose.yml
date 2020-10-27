@@ -6,7 +6,8 @@ services:
     build: . 
     volumes:
       - './scripts:/home/scripts:delegated'
-      - './data:/home/data:delegated'
+      - './data:/home/data'
       - './bio-softwares:/home/bio-softwares:delegated'
       - './de-novo:/home/de-novo:delegated'
       - './ref-map:/home/ref-map:delegated'
+      - './serovar:/home/serovar:delegated'

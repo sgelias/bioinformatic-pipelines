@@ -16,21 +16,60 @@ source "./colors.sh"
 : "# ************************************************ #"
 : "Verify it the input was passed as parameter."
 
-if [[ ! $1 ]]; then
-	echo "Need at last one parameter."
+if [ $# -eq 0 ]; then
+	echo "No parameter provided."
 	exit 1
-else
-	TARGET=$1
 fi
 
-echo -e "${SUCCESS} Target: $TARGET"
+while test $# -gt 0; do
+	case "$1" in
+	-h | --help)
+		echo "$package - attempt to capture frames"
+		echo " "
+		echo "$package [options] application [arguments]"
+		echo " "
+		echo "options:"
+		echo "-h, --help                show brief help"
+		echo "-t, --target=SRA       specify the target SRA to use"
+		#echo "-o, --output-dir=DIR      specify a directory to store output in"
+		exit 0
+		;;
+	-t)
+		shift
+		if test $# -gt 0; then
+			export TARGET=$1
+		else
+			echo "no target specified"
+			exit 1
+		fi
+		shift
+		;;
+	--target*)
+		export TARGET=$(echo $1 | sed -e 's/^[^=]*=//g')
+		shift
+		;;
+	*)
+		break
+		;;
+	esac
+done
+
+if [ -z $TARGET ]; then
+	echo -e "${WARN} Please specify the target parameter using -t or --target flag.
+	Example: -t ERR037801\n"
+	exit 1
+else
+	echo -e "${SUCCESS} Target: $TARGET"
+fi
+
+exit 1
 
 : "# ************************************************ #"
 : "Set base variables."
 
 BASE_DIR='/home/de-novo'
 SOFTWARES_DIR='/home/bio-softwares'
-DATA_DIR='/home/data'
+DATA_DIR='/home/data/enterobacter'
 
 : "# ************************************************ #"
 : "Create the control file. It should be used in flux control of pipeline."
@@ -64,9 +103,9 @@ set_control_variables() {
 	if [ "$1" = 0 ]; then
 		echo "${2}=1" >>$CONTROL_FILE
 		echo "${VAR_DATE}=$(date +%F:%H-%M-%S:%Z)" >>$CONTROL_FILE
-		echo -e "${SUCCESS} Target download already concluded in: $(date +%F:%H-%M-%S:%Z)"
+		echo -e "${SUCCESS} Step already concluded in: $(date +%F:%H-%M-%S:%Z)"
 	elif [ "$1" = 1 ]; then
-		echo -e "${SUCCESS} Target download already concluded in: ${!VAR_DATE}"
+		echo -e "${SUCCESS} Step already concluded in: ${!VAR_DATE}"
 	fi
 }
 
