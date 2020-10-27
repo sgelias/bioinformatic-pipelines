@@ -31,7 +31,6 @@ while test $# -gt 0; do
 		echo "options:"
 		echo "-h, --help                show brief help"
 		echo "-t, --target=SRA       specify the target SRA to use"
-		#echo "-o, --output-dir=DIR      specify a directory to store output in"
 		exit 0
 		;;
 	-t)
@@ -61,8 +60,6 @@ if [ -z $TARGET ]; then
 else
 	echo -e "${SUCCESS} Target: $TARGET"
 fi
-
-exit 1
 
 : "# ************************************************ #"
 : "Set base variables."
