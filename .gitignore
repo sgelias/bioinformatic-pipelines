@@ -3,4 +3,8 @@ sequence-assembly/bio-softwares
 sequence-assembly/de-novo
 sequence-assembly/ref-map
 sequence-assembly/serovar
+
+fungal-metabarcoding/data
+fungal-metabarcoding/bio-softwares
+
 tests

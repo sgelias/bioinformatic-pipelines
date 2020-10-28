@@ -126,7 +126,11 @@ java -jar \
     /home/data/ERR037801_2_FILTERED.fastq \
     /home/data/ERR037801_2_UNPAIRED.fastq \
     ILLUMINACLIP:/home/bioinfo/Trimmomatic-0.39/adapters/TruSeq3-PE.fa:2:30:10 \
-    LEADING:3 TRAILING:3 SLIDINGWINDOW:4:15 MINLEN:36 -validatePairs
+    LEADING:20 \
+    TRAILING:20 \
+    SLIDINGWINDOW:50:20 \
+    MINLEN:36 \
+    -validatePairs
 ```
 
 OBS: Then [read the documentation](http://www.usadellab.org/cms/?page=trimmomatic): see the introduction from Trimmomatic manual.

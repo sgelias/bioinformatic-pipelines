@@ -186,9 +186,9 @@ if [[ $DENOVO_FILTERING = 0 ]]; then
 			${TARGET}_2_FILTERED.fastq \
 			${TARGET}_2_UNPAIRED.fastq \
 			ILLUMINACLIP:${SOFTWARES_DIR}/Trimmomatic-0.39/adapters/TruSeq3-PE.fa:2:30:10 \
-			LEADING:3 \
-			TRAILING:3 \
-			SLIDINGWINDOW:4:15 \
+			LEADING:20 \
+			TRAILING:20 \
+			SLIDINGWINDOW:50:20 \
 			MINLEN:36 \
 			-validatePairs &&
 		python3 \

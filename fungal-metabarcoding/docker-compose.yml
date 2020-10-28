@@ -1,0 +1,10 @@
+version: "3"
+
+services:
+  machine:
+    container_name: "metabarcoding_proccessing"
+    build: . 
+    volumes:
+      - './scripts:/home/scripts:delegated'
+      - './data:/home/data'
+      - './bio-softwares:/home/bio-softwares:delegated'
